@@ -3,15 +3,45 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>GLOBAL X - Sistema Autônomo</title>
-  <link rel="stylesheet" href="style.css"/>
+  <title>GLOBAL X - IA Mariana</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #0d1117;
+      color: #ffffff;
+      text-align: center;
+      padding: 50px;
+    }
+    h1 {
+      color: #58a6ff;
+    }
+    #botao-ativar {
+      padding: 15px 30px;
+      font-size: 18px;
+      background-color: #238636;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+    #botao-ativar:hover {
+      background-color: #2ea043;
+    }
+    #status {
+      margin-top: 30px;
+      font-size: 20px;
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <h1>🌐 GLOBAL X - Sistema Autônomo</h1>
-    <button id="ativarBtn">Ativar IA Mariana</button>
-    <p id="status">Sistema pronto para ativação...</p>
-  </div>
+  <h1>🌐 GLOBAL X</h1>
+  <p>Sistema de IA Mariana integrado com OpenAI, ElevenLabs, AWS, etc.</p>
+  
+  <button id="botao-ativar" onclick="ativarIAMariana()">Ativar IA Mariana</button>
+  
+  <div id="status">🔵 Aguardando ativação...</div>
+
   <script src="script.js"></script>
 </body>
 </html>
