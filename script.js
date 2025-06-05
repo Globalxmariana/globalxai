@@ -1,10 +1,29 @@
-document.getElementById('ativarBtn').addEventListener('click', () => {
+async function ativarIAMariana() {
+  const botao = document.getElementById('botao-ativar');
   const status = document.getElementById('status');
-  status.innerText = "🔄 IA Mariana iniciando...";
+  botao.disabled = true;
+  status.textContent = '🧠 IA Mariana iniciando...';
 
-  setTimeout(() => {
-    status.innerText = "✅ IA Mariana ativada com sucesso!";
-    // Simulação: Aqui você pode conectar AWS, OpenAI, etc.
-    console.log("Conectando com AWS, ElevenLabs, OpenAI...");
-  }, 3000);
-});
+  try {
+    const resposta = await fetch('https://globalx-mariana.vercel.app/api/ativar', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chave: 'IA_MARIANA_100%' })
+    });
+
+    const dados = await resposta.json();
+
+    if (resposta.ok) {
+      status.textContent = '✅ IA Mariana ativada com sucesso!';
+      console.log('Conectando com AWS, ElevenLabs, OpenAI, etc...');
+    } else {
+      status.textContent = '❌ Erro ao ativar a IA.';
+      console.error(dados);
+    }
+  } catch (erro) {
+    status.textContent = '❌ Falha na conexão.';
+    console.error(erro);
+  }
+
+  botao.disabled = false;
+}
