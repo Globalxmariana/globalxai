@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GLOBAL X - Painel de Controle</title>
+  <style>
+    body {
+      background-color: #0d1117;
+      color: #ffffff;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 30px;
+    }
+    h1 {
+      color: #39ff14;
+    }
+    textarea, input {
+      width: 90%;
+      max-width: 600px;
+      padding: 10px;
+      margin: 10px auto;
+      border-radius: 8px;
+      border: none;
+      font-size: 1em;
+    }
+    button {
+      padding: 10px 20px;
+      margin: 10px;
+      border: none;
+      border-radius: 10px;
+      background-color: #39ff14;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    img {
+      max-width: 300px;
+      margin-top: 20px;
+      border-radius: 12px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🧠 GLOBAL X - Painel de IA</h1>
+  
+  <textarea id="prompt" rows="4" placeholder="Digite sua pergunta ou comando para a IA..."></textarea><br>
+  <button onclick="enviarParaIA()">🤖 Perguntar ao ChatGPT</button>
+  <button onclick="gerarImagem()">🎨 Gerar Imagem (DALL·E)</button>
+  <button onclick="falar()">🎤 Falar com a IA</button>
+
+  <h2>📝 Resposta da IA:</h2>
+  <div id="resposta"></div>
+
+  <h2>🖼️ Imagem Gerada:</h2>
+  <img id="imagem" src="" alt="" style="display:none" />
+
+  <script>
+    async function enviarParaIA() {
+      const prompt = document.getElementById('prompt').value;
+      const resposta = document.getElementById('resposta');
+      resposta.innerHTML = 'Carregando...';
+
+      const resultado = await fetch("https://globalxai.vercel.app/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt })
+      }).then(r => r.json());
+
+      resposta.innerText = resultado.resposta;
+    }
+
+    async function gerarImagem() {
+      const prompt = document.getElementById('prompt').value;
+      const img = document.getElementById('imagem');
+      img.style.display = 'block';
+      img.src = '';
+      const resposta = await fetch("https://globalxai.vercel.app/gerar-imagem", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt })
+      }).then(r => r.json());
+
+      img.src = resposta.url;
+    }
+
+    function falar() {
+      const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+      recognition.lang = 'pt-BR';
+      recognition.start();
+
+      recognition.onresult = function(event) {
+        const texto = event.results[0][0].transcript;
+        document.getElementById('prompt').value = texto;
+        enviarParaIA();
+      };
+    }
+  </script>
+</body>
+</html>
